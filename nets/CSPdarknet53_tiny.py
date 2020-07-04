@@ -29,12 +29,12 @@ class BasicConv(nn.Module):
 class Resblock_body(nn.Module):
     def __init__(self, in_channels, out_channels):
         super(Resblock_body, self).__init__()
+        self.out_channels = out_channels
 
         self.conv1 = BasicConv(in_channels, out_channels, 3)
 
         self.conv2 = BasicConv(out_channels//2, out_channels//2, 3)
         self.conv3 = BasicConv(out_channels//2, out_channels//2, 3)
-
 
         self.conv4 = BasicConv(out_channels, out_channels, 1)
         self.maxpool = nn.MaxPool2d([2,2],[2,2])
@@ -42,8 +42,8 @@ class Resblock_body(nn.Module):
     def forward(self, x):
         x = self.conv1(x)
         route = x
-
-        _, c, _, _ = x.size()
+        
+        c = self.out_channels
         x = torch.split(x, c//2, dim=1)[1]
         x = self.conv2(x)
         route1 = x
