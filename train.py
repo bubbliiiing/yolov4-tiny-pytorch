@@ -128,7 +128,7 @@ if __name__ == "__main__":
     #-------------------------------------------#
     #   权值文件的下载请看README
     #-------------------------------------------#
-    model_path = "model_data/yolo_tiny_voc.pth"
+    model_path = "model_data/yolov4_tiny_voc.pth"
     # 加快模型训练的效率
     print('Loading weights into state dict...')
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

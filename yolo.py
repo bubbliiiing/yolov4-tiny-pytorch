@@ -19,7 +19,7 @@ from utils.utils import non_max_suppression, bbox_iou, DecodeBox,letterbox_image
 #--------------------------------------------#
 class YOLO(object):
     _defaults = {
-        "model_path": 'model_data/yolo_tiny_voc.pth',
+        "model_path": 'model_data/yolov4_tiny_voc.pth',
         "anchors_path": 'model_data/yolo_anchors.txt',
         "classes_path": 'model_data/voc_classes.txt',
         "model_image_size" : (416, 416, 3),
