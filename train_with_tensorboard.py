@@ -13,7 +13,7 @@ import torch.backends.cudnn as cudnn
 from torch.utils.data import DataLoader
 from utils.dataloader import yolo_dataset_collate, YoloDataset
 from nets.yolo_training import YOLOLoss,Generator
-from nets.yolo4 import YoloBody
+from nets.yolo4_tiny import YoloBody
 from tensorboardX import SummaryWriter
 
 #---------------------------------------------------#
@@ -31,7 +31,7 @@ def get_anchors(anchors_path):
     with open(anchors_path) as f:
         anchors = f.readline()
     anchors = [float(x) for x in anchors.split(',')]
-    return np.array(anchors).reshape([-1,3,2])[::-1,:,:]
+    return np.array(anchors).reshape([-1,3,2])
 
 def fit_ont_epoch(net,yolo_losses,epoch,epoch_size,epoch_size_val,gen,genval,Epoch,cuda,writer):
     total_loss = 0
@@ -51,7 +51,7 @@ def fit_ont_epoch(net,yolo_losses,epoch,epoch_size,epoch_size_val,gen,genval,Epo
         optimizer.zero_grad()
         outputs = net(images)
         losses = []
-        for i in range(3):
+        for i in range(2):
             loss_item = yolo_losses[i](outputs[i], targets)
             losses.append(loss_item[0])
         loss = sum(losses)
@@ -155,7 +155,7 @@ if __name__ == "__main__":
 
     # 建立loss函数
     yolo_losses = []
-    for i in range(3):
+    for i in range(2):
         yolo_losses.append(YOLOLoss(np.reshape(anchors,[-1,2]),num_classes, \
                                 (input_shape[1], input_shape[0]), smoooth_label, Cuda))
 
@@ -178,7 +178,7 @@ if __name__ == "__main__":
 
     if True:
         lr = 1e-3
-        Batch_size = 4
+        Batch_size = 16
         Init_Epoch = 0
         Freeze_Epoch = 25
         
@@ -215,7 +215,7 @@ if __name__ == "__main__":
 
     if True:
         lr = 1e-4
-        Batch_size = 2
+        Batch_size = 16
         Freeze_Epoch = 25
         Unfreeze_Epoch = 50
 
