@@ -85,7 +85,7 @@ def fit_ont_epoch(net,yolo_losses,epoch,epoch_size,epoch_size_val,gen,genval,Epo
             outputs = net(images_val)
             losses = []
 
-            for i in range(3):
+            for i in range(2):
                 loss_item = yolo_losses[i](outputs[i], targets_val)
                 losses.append(loss_item[0])
             loss = sum(losses)
