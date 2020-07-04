@@ -4,7 +4,7 @@
 ### 目录
 1. [所需环境 Environment](#所需环境)
 2. [注意事项 Attention](#注意事项)
-3. [文件下载 Download](#文件下载))
+3. [文件下载 Download](#文件下载)
 4. [训练步骤 How2train](#训练步骤)
 5. [参考资料 Reference](#Reference)
 
