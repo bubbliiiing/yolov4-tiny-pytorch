@@ -15,7 +15,6 @@ from utils.dataloader import yolo_dataset_collate, YoloDataset
 from nets.yolo_training import YOLOLoss,Generator
 from nets.yolo4_tiny import YoloBody
 
-
 #---------------------------------------------------#
 #   获得类和先验框
 #---------------------------------------------------#
@@ -107,7 +106,7 @@ if __name__ == "__main__":
     Cosine_lr = False
     mosaic = False
     # 用于设定是否使用cuda
-    Cuda = True
+    Cuda = False
     smoooth_label = 0
     #-------------------------------#
     #   Dataloder的使用
@@ -162,45 +161,45 @@ if __name__ == "__main__":
     num_val = int(len(lines)*val_split)
     num_train = len(lines) - num_val
     
-    # if True:
-    #     lr = 1e-3
-    #     Batch_size = 16
-    #     Init_Epoch = 0
-    #     Freeze_Epoch = 25
+    if True:
+        lr = 1e-3
+        Batch_size = 16
+        Init_Epoch = 0
+        Freeze_Epoch = 25
         
-    #     optimizer = optim.Adam(net.parameters(),lr,weight_decay=5e-4)
-    #     if Cosine_lr:
-    #         lr_scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=5, eta_min=1e-5)
-    #     else:
-    #         lr_scheduler = optim.lr_scheduler.StepLR(optimizer,step_size=1,gamma=0.95)
+        optimizer = optim.Adam(net.parameters(),lr,weight_decay=5e-4)
+        if Cosine_lr:
+            lr_scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=5, eta_min=1e-5)
+        else:
+            lr_scheduler = optim.lr_scheduler.StepLR(optimizer,step_size=1,gamma=0.95)
 
-    #     if Use_Data_Loader:
-    #         train_dataset = YoloDataset(lines[:num_train], (input_shape[0], input_shape[1]), mosaic=mosaic)
-    #         val_dataset = YoloDataset(lines[num_train:], (input_shape[0], input_shape[1]), mosaic=False)
-    #         gen = DataLoader(train_dataset, batch_size=Batch_size, num_workers=8, pin_memory=True,
-    #                                 drop_last=True, collate_fn=yolo_dataset_collate)
-    #         gen_val = DataLoader(val_dataset, batch_size=Batch_size, num_workers=8,pin_memory=True, 
-    #                                 drop_last=True, collate_fn=yolo_dataset_collate)
-    #     else:
-    #         gen = Generator(Batch_size, lines[:num_train],
-    #                         (input_shape[0], input_shape[1])).generate(mosaic = mosaic)
-    #         gen_val = Generator(Batch_size, lines[num_train:],
-    #                         (input_shape[0], input_shape[1])).generate(mosaic = False)
+        if Use_Data_Loader:
+            train_dataset = YoloDataset(lines[:num_train], (input_shape[0], input_shape[1]), mosaic=mosaic)
+            val_dataset = YoloDataset(lines[num_train:], (input_shape[0], input_shape[1]), mosaic=False)
+            gen = DataLoader(train_dataset, batch_size=Batch_size, num_workers=8, pin_memory=True,
+                                    drop_last=True, collate_fn=yolo_dataset_collate)
+            gen_val = DataLoader(val_dataset, batch_size=Batch_size, num_workers=8,pin_memory=True, 
+                                    drop_last=True, collate_fn=yolo_dataset_collate)
+        else:
+            gen = Generator(Batch_size, lines[:num_train],
+                            (input_shape[0], input_shape[1])).generate(mosaic = mosaic)
+            gen_val = Generator(Batch_size, lines[num_train:],
+                            (input_shape[0], input_shape[1])).generate(mosaic = False)
 
-    #     epoch_size = max(1, num_train//Batch_size)
-    #     epoch_size_val = num_val//Batch_size
-    #     #------------------------------------#
-    #     #   冻结一定部分训练
-    #     #------------------------------------#
-    #     # for param in model.backbone.parameters():
-    #     #     param.requires_grad = False
+        epoch_size = max(1, num_train//Batch_size)
+        epoch_size_val = num_val//Batch_size
+        #------------------------------------#
+        #   冻结一定部分训练
+        #------------------------------------#
+        for param in model.backbone.parameters():
+            param.requires_grad = False
 
-    #     for epoch in range(Init_Epoch,Freeze_Epoch):
-    #         fit_ont_epoch(net,yolo_losses,epoch,epoch_size,epoch_size_val,gen,gen_val,Freeze_Epoch,Cuda)
-    #         lr_scheduler.step()
+        for epoch in range(Init_Epoch,Freeze_Epoch):
+            fit_ont_epoch(net,yolo_losses,epoch,epoch_size,epoch_size_val,gen,gen_val,Freeze_Epoch,Cuda)
+            lr_scheduler.step()
 
     if True:
-        lr = 1e-5
+        lr = 1e-4
         Batch_size = 16
         Freeze_Epoch = 25
         Unfreeze_Epoch = 50
