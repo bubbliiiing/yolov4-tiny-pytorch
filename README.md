@@ -28,7 +28,7 @@ torch==1.2.0
 
 ### 预测步骤
 #### 1、使用预训练权重
-a、下载完库后解压，在百度网盘下载yolo4_weights.h5或者yolo4_voc_weights.h5，放入model_data，运行predict.py，输入  
+a、下载完库后解压，在百度网盘下载yolov4_tiny_voc.pth，放入model_data，运行predict.py，输入  
 ```python
 img/street.jpg
 ```
