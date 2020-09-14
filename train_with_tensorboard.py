@@ -128,7 +128,7 @@ if __name__ == "__main__":
     #   tricks的使用设置
     #-------------------------------#
     Cosine_lr = False
-    mosaic = True
+    mosaic = False
     # 用于设定是否使用cuda
     Cuda = True
     smoooth_label = 0
