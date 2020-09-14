@@ -15,13 +15,14 @@ from yolo import YOLO
 from nets.yolo4_tiny import YoloBody
 from PIL import Image,ImageFont, ImageDraw
 from utils.utils import non_max_suppression, bbox_iou, DecodeBox,letterbox_image,yolo_correct_boxes
+from tqdm import tqdm
 
 class mAP_Yolo(YOLO):
     #---------------------------------------------------#
     #   检测图片
     #---------------------------------------------------#
     def detect_image(self,image_id,image):
-        self.confidence = 0.05
+        self.confidence = 0.001
         f = open("./input/detection-results/"+image_id+".txt","w") 
         image_shape = np.array(np.shape(image)[0:2])
 
@@ -46,7 +47,7 @@ class mAP_Yolo(YOLO):
         output = torch.cat(output_list, 1)
         batch_detections = non_max_suppression(output, len(self.class_names),
                                                 conf_thres=self.confidence,
-                                                nms_thres=0.3)
+                                                nms_thres=self.iou)
 
         try:
             batch_detections = batch_detections[0].cpu().numpy()
@@ -83,13 +84,12 @@ if not os.path.exists("./input/images-optional"):
     os.makedirs("./input/images-optional")
 
 
-for image_id in image_ids:
+for image_id in tqdm(image_ids):
     image_path = "./VOCdevkit/VOC2007/JPEGImages/"+image_id+".jpg"
     image = Image.open(image_path)
     # 开启后在之后计算mAP可以可视化
     # image.save("./input/images-optional/"+image_id+".jpg")
     yolo.detect_image(image_id,image)
-    print(image_id," done!")
     
 
 print("Conversion completed!")
