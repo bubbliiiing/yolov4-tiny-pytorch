@@ -19,12 +19,13 @@ from utils.utils import non_max_suppression, bbox_iou, DecodeBox,letterbox_image
 #--------------------------------------------#
 class YOLO(object):
     _defaults = {
-        "model_path": 'model_data/yolov4_tiny_voc.pth',
-        "anchors_path": 'model_data/yolo_anchors.txt',
-        "classes_path": 'model_data/voc_classes.txt',
-        "model_image_size" : (416, 416, 3),
-        "confidence": 0.5,
-        "cuda": True
+        "model_path"        : 'model_data/yolov4_tiny_weights_coco.pth',
+        "anchors_path"      : 'model_data/yolo_anchors.txt',
+        "classes_path"      : 'model_data/coco_classes.txt',
+        "model_image_size"  : (416, 416, 3),
+        "confidence"        : 0.5,
+        "iou"               : 0.3,
+        "cuda"              : True
     }
 
     @classmethod
@@ -124,7 +125,7 @@ class YOLO(object):
         output = torch.cat(output_list, 1)
         batch_detections = non_max_suppression(output, len(self.class_names),
                                                 conf_thres=self.confidence,
-                                                nms_thres=0.3)
+                                                nms_thres=self.iou)
         try:
             batch_detections = batch_detections[0].cpu().numpy()
         except:
