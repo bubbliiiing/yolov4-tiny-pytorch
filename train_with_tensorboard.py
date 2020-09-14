@@ -149,7 +149,7 @@ if __name__ == "__main__":
     
     # 创建模型
     model = YoloBody(len(anchors[0]),num_classes)
-    model_path = "model_data/yolov4_tiny_voc.pth"
+    model_path = "model_data/yolov4_tiny_weights_coco.pth"
     # 加快模型训练的效率
     print('Loading weights into state dict...')
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -194,7 +194,7 @@ if __name__ == "__main__":
         lr = 1e-3
         Batch_size = 16
         Init_Epoch = 0
-        Freeze_Epoch = 25
+        Freeze_Epoch = 50
         
         optimizer = optim.Adam(net.parameters(),lr,weight_decay=5e-4)
         if Cosine_lr:
@@ -230,8 +230,8 @@ if __name__ == "__main__":
     if True:
         lr = 1e-4
         Batch_size = 16
-        Freeze_Epoch = 25
-        Unfreeze_Epoch = 50
+        Freeze_Epoch = 50
+        Unfreeze_Epoch = 100
 
         optimizer = optim.Adam(net.parameters(),lr,weight_decay=5e-4)
         if Cosine_lr:
