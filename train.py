@@ -123,7 +123,7 @@ if __name__ == "__main__":
     Cosine_lr = False
     mosaic = False
     # 用于设定是否使用cuda
-    Cuda = True
+    Cuda = False
     smoooth_label = 0
     #-------------------------------#
     #   Dataloder的使用
@@ -144,7 +144,7 @@ if __name__ == "__main__":
     #-------------------------------------------#
     #   权值文件的下载请看README
     #-------------------------------------------#
-    model_path = "model_data/yolov4_tiny_voc.pth"
+    model_path = "model_data/yolov4_tiny_weights_coco.pth"
     # 加快模型训练的效率
     print('Loading weights into state dict...')
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -189,7 +189,7 @@ if __name__ == "__main__":
         lr = 1e-3
         Batch_size = 16
         Init_Epoch = 0
-        Freeze_Epoch = 25
+        Freeze_Epoch = 50
         
         optimizer = optim.Adam(net.parameters(),lr,weight_decay=5e-4)
         if Cosine_lr:
@@ -200,9 +200,9 @@ if __name__ == "__main__":
         if Use_Data_Loader:
             train_dataset = YoloDataset(lines[:num_train], (input_shape[0], input_shape[1]), mosaic=mosaic)
             val_dataset = YoloDataset(lines[num_train:], (input_shape[0], input_shape[1]), mosaic=False)
-            gen = DataLoader(train_dataset, batch_size=Batch_size, num_workers=4, pin_memory=True,
+            gen = DataLoader(train_dataset, batch_size=Batch_size, num_workers=8, pin_memory=True,
                                     drop_last=True, collate_fn=yolo_dataset_collate)
-            gen_val = DataLoader(val_dataset, batch_size=Batch_size, num_workers=4,pin_memory=True, 
+            gen_val = DataLoader(val_dataset, batch_size=Batch_size, num_workers=8,pin_memory=True, 
                                     drop_last=True, collate_fn=yolo_dataset_collate)
         else:
             gen = Generator(Batch_size, lines[:num_train],
@@ -225,8 +225,8 @@ if __name__ == "__main__":
     if True:
         lr = 1e-4
         Batch_size = 16
-        Freeze_Epoch = 25
-        Unfreeze_Epoch = 50
+        Freeze_Epoch = 50
+        Unfreeze_Epoch = 100
 
         optimizer = optim.Adam(net.parameters(),lr,weight_decay=5e-4)
         if Cosine_lr:
@@ -237,9 +237,9 @@ if __name__ == "__main__":
         if Use_Data_Loader:
             train_dataset = YoloDataset(lines[:num_train], (input_shape[0], input_shape[1]), mosaic=mosaic)
             val_dataset = YoloDataset(lines[num_train:], (input_shape[0], input_shape[1]), mosaic=False)
-            gen = DataLoader(train_dataset, batch_size=Batch_size, num_workers=4, pin_memory=True,
+            gen = DataLoader(train_dataset, batch_size=Batch_size, num_workers=8, pin_memory=True,
                                     drop_last=True, collate_fn=yolo_dataset_collate)
-            gen_val = DataLoader(val_dataset, batch_size=Batch_size, num_workers=4,pin_memory=True, 
+            gen_val = DataLoader(val_dataset, batch_size=Batch_size, num_workers=8,pin_memory=True, 
                                     drop_last=True, collate_fn=yolo_dataset_collate)
         else:
             gen = Generator(Batch_size, lines[:num_train],
