@@ -123,7 +123,7 @@ if __name__ == "__main__":
     Cosine_lr = False
     mosaic = False
     # 用于设定是否使用cuda
-    Cuda = False
+    Cuda = True
     smoooth_label = 0
     #-------------------------------#
     #   Dataloder的使用
