@@ -15,7 +15,7 @@
 ### 性能情况
 | 训练数据集 | 权值文件名称 | 测试数据集 | 输入图片大小 | mAP 0.5:0.95 | mAP 0.5 |
 | :-----: | :-----: | :------: | :------: | :------: | :-----: |
-| VOC07+12+COCO | [yolov4_tiny_weights_voc.pth](https://github.com/bubbliiiing/yolov4-tiny-pytorch/releases/download/v1.0/yolov4_tiny_weights_voc.pth) | VOC-Test07 | 416x416 | - | 74.65
+| VOC07+12+COCO | [yolov4_tiny_weights_voc.pth](https://github.com/bubbliiiing/yolov4-tiny-pytorch/releases/download/v1.0/yolov4_tiny_weights_voc.pth) | VOC-Test07 | 416x416 | - | 74.7
 | COCO-Train2017 | [yolov4_tiny_weights_coco.pth](https://github.com/bubbliiiing/yolov4-tiny-pytorch/releases/download/v1.0/yolov4_tiny_weights_coco.pth) | COCO-Val2017 | 416x416 | 18.7 | 37.7
 
 
