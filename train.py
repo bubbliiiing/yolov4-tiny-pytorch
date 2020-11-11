@@ -237,14 +237,14 @@ if __name__ == "__main__":
         if Use_Data_Loader:
             train_dataset = YoloDataset(lines[:num_train], (input_shape[0], input_shape[1]), mosaic=mosaic)
             val_dataset = YoloDataset(lines[num_train:], (input_shape[0], input_shape[1]), mosaic=False)
-            gen = DataLoader(train_dataset, batch_size=Batch_size, num_workers=8, pin_memory=True,
+            gen = DataLoader(train_dataset, shuffle=True, batch_size=Batch_size, num_workers=8, pin_memory=True,
                                     drop_last=True, collate_fn=yolo_dataset_collate)
-            gen_val = DataLoader(val_dataset, batch_size=Batch_size, num_workers=8,pin_memory=True, 
+            gen_val = DataLoader(val_dataset, shuffle=True, batch_size=Batch_size, num_workers=8,pin_memory=True, 
                                     drop_last=True, collate_fn=yolo_dataset_collate)
         else:
-            gen = Generator(Batch_size, shuffle=True, lines[:num_train],
+            gen = Generator(Batch_size, lines[:num_train],
                             (input_shape[0], input_shape[1])).generate(mosaic = mosaic)
-            gen_val = Generator(Batch_size, shuffle=True, lines[num_train:],
+            gen_val = Generator(Batch_size, lines[num_train:],
                             (input_shape[0], input_shape[1])).generate(mosaic = False)
 
         epoch_size = max(1, num_train//Batch_size)
