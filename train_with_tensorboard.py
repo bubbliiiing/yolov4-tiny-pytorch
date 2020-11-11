@@ -78,7 +78,8 @@ def fit_ont_epoch(net,yolo_losses,epoch,epoch_size,epoch_size_val,gen,genval,Epo
         
     # 将loss写入tensorboard，下面注释的是每个世代保存一次
     # writer.add_scalar('Train_loss', total_loss/(iteration+1), epoch)
-
+    
+    net.eval()
     print('Start Validation')
     with tqdm(total=epoch_size_val, desc=f'Epoch {epoch + 1}/{Epoch}',postfix=dict,mininterval=0.3) as pbar:
         for iteration, batch in enumerate(genval):
@@ -107,7 +108,7 @@ def fit_ont_epoch(net,yolo_losses,epoch,epoch_size,epoch_size_val,gen,genval,Epo
 
             pbar.set_postfix(**{'total_loss': val_loss.item() / (iteration + 1)})
             pbar.update(1)
-
+    net.train()
     # 将loss写入tensorboard，每个世代保存一次
     writer.add_scalar('Val_loss',val_loss/(epoch_size_val+1), epoch)
     print('Finish Validation')
@@ -205,9 +206,9 @@ if __name__ == "__main__":
         if Use_Data_Loader:
             train_dataset = YoloDataset(lines[:num_train], (input_shape[0], input_shape[1]), mosaic=mosaic)
             val_dataset = YoloDataset(lines[num_train:], (input_shape[0], input_shape[1]), mosaic=False)
-            gen = DataLoader(train_dataset, batch_size=Batch_size, num_workers=4, pin_memory=True,
+            gen = DataLoader(train_dataset, shuffle=True, batch_size=Batch_size, num_workers=4, pin_memory=True,
                                     drop_last=True, collate_fn=yolo_dataset_collate)
-            gen_val = DataLoader(val_dataset, batch_size=Batch_size, num_workers=4,pin_memory=True, 
+            gen_val = DataLoader(val_dataset, shuffle=True, batch_size=Batch_size, num_workers=4,pin_memory=True, 
                                     drop_last=True, collate_fn=yolo_dataset_collate)
         else:
             gen = Generator(Batch_size, lines[:num_train],
