@@ -51,14 +51,15 @@ class FPS_YOLO(YOLO):
                                                     nms_thres=self.iou)
             try:
                 batch_detections = batch_detections[0].cpu().numpy()
+                top_index = batch_detections[:,4]*batch_detections[:,5] > self.confidence
+                top_conf = batch_detections[top_index,4]*batch_detections[top_index,5]
+                top_label = np.array(batch_detections[top_index,-1],np.int32)
+                top_bboxes = np.array(batch_detections[top_index,:4])
+                top_xmin, top_ymin, top_xmax, top_ymax = np.expand_dims(top_bboxes[:,0],-1),np.expand_dims(top_bboxes[:,1],-1),np.expand_dims(top_bboxes[:,2],-1),np.expand_dims(top_bboxes[:,3],-1)
+                # 去掉灰条
+                boxes = yolo_correct_boxes(top_ymin,top_xmin,top_ymax,top_xmax,np.array([self.model_image_size[0],self.model_image_size[1]]),image_shape)
             except:
-                return image
-            top_index = batch_detections[:,4]*batch_detections[:,5] > self.confidence
-            top_conf = batch_detections[top_index,4]*batch_detections[top_index,5]
-            top_label = np.array(batch_detections[top_index,-1],np.int32)
-            top_bboxes = np.array(batch_detections[top_index,:4])
-            top_xmin, top_ymin, top_xmax, top_ymax = np.expand_dims(top_bboxes[:,0],-1),np.expand_dims(top_bboxes[:,1],-1),np.expand_dims(top_bboxes[:,2],-1),np.expand_dims(top_bboxes[:,3],-1)
-            boxes = yolo_correct_boxes(top_ymin,top_xmin,top_ymax,top_xmax,np.array([self.model_image_size[0],self.model_image_size[1]]),image_shape)
+                pass
 
         t1 = time.time()
         for _ in range(test_interval):
@@ -73,15 +74,15 @@ class FPS_YOLO(YOLO):
                                                         nms_thres=self.iou)
                 try:
                     batch_detections = batch_detections[0].cpu().numpy()
+                    top_index = batch_detections[:,4]*batch_detections[:,5] > self.confidence
+                    top_conf = batch_detections[top_index,4]*batch_detections[top_index,5]
+                    top_label = np.array(batch_detections[top_index,-1],np.int32)
+                    top_bboxes = np.array(batch_detections[top_index,:4])
+                    top_xmin, top_ymin, top_xmax, top_ymax = np.expand_dims(top_bboxes[:,0],-1),np.expand_dims(top_bboxes[:,1],-1),np.expand_dims(top_bboxes[:,2],-1),np.expand_dims(top_bboxes[:,3],-1)
+                    # 去掉灰条
+                    boxes = yolo_correct_boxes(top_ymin,top_xmin,top_ymax,top_xmax,np.array([self.model_image_size[0],self.model_image_size[1]]),image_shape)
                 except:
-                    return image
-                top_index = batch_detections[:,4]*batch_detections[:,5] > self.confidence
-                top_conf = batch_detections[top_index,4]*batch_detections[top_index,5]
-                top_label = np.array(batch_detections[top_index,-1],np.int32)
-                top_bboxes = np.array(batch_detections[top_index,:4])
-                top_xmin, top_ymin, top_xmax, top_ymax = np.expand_dims(top_bboxes[:,0],-1),np.expand_dims(top_bboxes[:,1],-1),np.expand_dims(top_bboxes[:,2],-1),np.expand_dims(top_bboxes[:,3],-1)
-                # 去掉灰条
-                boxes = yolo_correct_boxes(top_ymin,top_xmin,top_ymax,top_xmax,np.array([self.model_image_size[0],self.model_image_size[1]]),image_shape)
+                    pass
 
         t2 = time.time()
         tact_time = (t2 - t1) / test_interval
