@@ -1,12 +1,14 @@
+from collections import OrderedDict
+
 import torch
 import torch.nn as nn
-from collections import OrderedDict
+
 from nets.CSPdarknet53_tiny import darknet53_tiny
 
 
 #-------------------------------------------------#
-#   卷积块
-#   CONV+BATCHNORM+LeakyReLU
+#   卷积块 -> 卷积 + 标准化 + 激活函数
+#   Conv2d + BatchNormalization + LeakyReLU
 #-------------------------------------------------#
 class BasicConv(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size, stride=1):
@@ -21,7 +23,6 @@ class BasicConv(nn.Module):
         x = self.bn(x)
         x = self.activation(x)
         return x
-
 
 #---------------------------------------------------#
 #   卷积 + 上采样
@@ -38,7 +39,6 @@ class Upsample(nn.Module):
     def forward(self, x,):
         x = self.upsample(x)
         return x
-
 
 #---------------------------------------------------#
 #   最后获得yolov4的输出
@@ -65,17 +65,24 @@ class YoloBody(nn.Module):
         self.upsample = Upsample(256,128)
         self.yolo_headP4 = yolo_head([256, num_anchors * (5 + num_classes)],384)
 
-
-
     def forward(self, x):
-        #  backbone
+        #---------------------------------------------------#
+        #   生成CSPdarknet53_tiny的主干模型
+        #   feat1的shape为26,26,256
+        #   feat2的shape为13,13,512
+        #---------------------------------------------------#
         feat1, feat2 = self.backbone(x)
+        # 13,13,512 -> 13,13,256
         P5 = self.conv_for_P5(feat2)
+        # 13,13,256 -> 13,13,512 -> 13,13,255
         out0 = self.yolo_headP5(P5) 
 
+        # 13,13,256 -> 13,13,128 -> 26,26,128
         P5_Upsample = self.upsample(P5)
+        # 26,26,256 + 26,26,128 -> 26,26,384
         P4 = torch.cat([feat1,P5_Upsample],axis=1)
 
+        # 26,26,384 -> 26,26,256 -> 26,26,255
         out1 = self.yolo_headP4(P4)
         
         return out0, out1
