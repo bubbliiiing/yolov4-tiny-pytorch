@@ -219,7 +219,7 @@ class YOLOLoss(nn.Module):
             num_pos = torch.sum(mask)
             num_pos = torch.max(num_pos, torch.ones_like(num_pos))
         else:
-            num_pos = bs
+            num_pos = bs/2
 
         return loss, num_pos
 
