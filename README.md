@@ -1,6 +1,8 @@
 ## YOLOV4-Tiny：You Only Look Once-Tiny目标检测模型在Keras当中的实现
 ---
 
+**2021年2月7日更新：**   
+**仔细对照了darknet库的网络结构，发现P5_Upsample和feat1的顺序搞反了，已经调整，重新训练了权值，加入letterbox_image的选项，关闭letterbox_image后网络的map得到提升。**
 
 ## 目录
 1. [性能情况 Performance](#性能情况)
