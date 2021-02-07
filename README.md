@@ -15,8 +15,8 @@
 ### 性能情况
 | 训练数据集 | 权值文件名称 | 测试数据集 | 输入图片大小 | mAP 0.5:0.95 | mAP 0.5 |
 | :-----: | :-----: | :------: | :------: | :------: | :-----: |
-| VOC07+12+COCO | [yolov4_tiny_weights_voc.pth](https://github.com/bubbliiiing/yolov4-tiny-pytorch/releases/download/v1.0/yolov4_tiny_weights_voc.pth) | VOC-Test07 | 416x416 | - | 74.7
-| COCO-Train2017 | [yolov4_tiny_weights_coco.pth](https://github.com/bubbliiiing/yolov4-tiny-pytorch/releases/download/v1.0/yolov4_tiny_weights_coco.pth) | COCO-Val2017 | 416x416 | 18.7 | 37.7
+| VOC07+12+COCO | [yolov4_tiny_weights_voc.pth](https://github.com/bubbliiiing/yolov4-tiny-pytorch/releases/download/v1.0/yolov4_tiny_weights_voc.pth) | VOC-Test07 | 416x416 | - | 77.8
+| COCO-Train2017 | [yolov4_tiny_weights_coco.pth](https://github.com/bubbliiiing/yolov4-tiny-pytorch/releases/download/v1.0/yolov4_tiny_weights_coco.pth) | COCO-Val2017 | 416x416 | 21.4 | 40.5
 
 
 ### 所需环境
@@ -33,7 +33,7 @@ torch==1.2.0
 
 ### 文件下载
 训练所需的yolov4_tiny_weights_coco.pth和yolov4_tiny_weights_voc.pth可在百度网盘中下载。   
-链接: https://pan.baidu.com/s/1xtVnJUwt97vqrzrLTsScOA 提取码: rv24
+链接: https://pan.baidu.com/s/1B37A_-Fcx8TsAK-M4hm90g 提取码: 5te5 
 
 ### 预测步骤
 #### 1、使用预训练权重
