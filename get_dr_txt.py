@@ -29,8 +29,13 @@ class mAP_Yolo(YOLO):
 
         #---------------------------------------------------------#
         #   给图像增加灰条，实现不失真的resize
+        #   也可以直接resize进行识别
         #---------------------------------------------------------#
-        crop_img = np.array(letterbox_image(image, (self.model_image_size[1],self.model_image_size[0])))
+        if self.letterbox_image:
+            crop_img = np.array(letterbox_image(image, (self.model_image_size[1],self.model_image_size[0])))
+        else:
+            crop_img = image.convert('RGB')
+            crop_img = crop_img.resize((self.model_image_size[1],self.model_image_size[0]), Image.BICUBIC)
         photo = np.array(crop_img,dtype = np.float32) / 255.0
         photo = np.transpose(photo, (2, 0, 1))
         #---------------------------------------------------------#
@@ -59,13 +64,10 @@ class mAP_Yolo(YOLO):
                                                     conf_thres=self.confidence,
                                                     nms_thres=self.iou)
         
-            #---------------------------------------------------------#
-            #   如果没有检测出物体，返回原图
-            #---------------------------------------------------------#
             try:
                 batch_detections = batch_detections[0].cpu().numpy()
             except:
-                return image
+                return 
             
             #---------------------------------------------------------#
             #   对预测框进行得分筛选
@@ -81,7 +83,14 @@ class mAP_Yolo(YOLO):
             #   因此生成的top_bboxes是相对于有灰条的图像的
             #   我们需要对其进行修改，去除灰条的部分。
             #-----------------------------------------------------------------#
-            boxes = yolo_correct_boxes(top_ymin,top_xmin,top_ymax,top_xmax,np.array([self.model_image_size[0],self.model_image_size[1]]),image_shape)
+            if self.letterbox_image:
+                boxes = yolo_correct_boxes(top_ymin,top_xmin,top_ymax,top_xmax,np.array([self.model_image_size[0],self.model_image_size[1]]),image_shape)
+            else:
+                top_xmin = top_xmin / self.model_image_size[1] * image_shape[1]
+                top_ymin = top_ymin / self.model_image_size[0] * image_shape[0]
+                top_xmax = top_xmax / self.model_image_size[1] * image_shape[1]
+                top_ymax = top_ymax / self.model_image_size[0] * image_shape[0]
+                boxes = np.concatenate([top_ymin,top_xmin,top_ymax,top_xmax], axis=-1)
 
         for i, c in enumerate(top_label):
             predicted_class = self.class_names[c]
