@@ -1,4 +1,4 @@
-## YOLOV4-Tiny：You Only Look Once-Tiny目标检测模型在Keras当中的实现
+## YOLOV4-Tiny：You Only Look Once-Tiny目标检测模型在Pytorch当中的实现
 ---
 
 **2021年2月7日更新：**   
