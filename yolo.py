@@ -94,7 +94,6 @@ class YOLO(object):
         print('Finished!')
         
         if self.cuda:
-            os.environ["CUDA_VISIBLE_DEVICES"] = '0'
             self.net = nn.DataParallel(self.net)
             self.net = self.net.cuda()
     
