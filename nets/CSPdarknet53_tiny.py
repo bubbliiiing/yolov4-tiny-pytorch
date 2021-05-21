@@ -1,8 +1,8 @@
-import torch
-import torch.nn.functional as F
-import torch.nn as nn
 import math
-from collections import OrderedDict
+
+import torch
+import torch.nn as nn
+
 
 #-------------------------------------------------#
 #   卷积块
@@ -106,7 +106,6 @@ class CSPDarkNet(nn.Module):
         self.resblock_body3 =  Resblock_body(256, 256)
         # 13,13,512 -> 13,13,512
         self.conv3 = BasicConv(512, 512, kernel_size=3)
-
 
         self.num_features = 1
         # 进行权值初始化

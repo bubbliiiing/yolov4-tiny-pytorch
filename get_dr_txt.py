@@ -3,19 +3,16 @@
 #       具体教程请查看Bilibili
 #       Bubbliiiing
 #-------------------------------------#
-import cv2
-import numpy as np
-import colorsys
 import os
+
+import numpy as np
 import torch
-import torch.nn as nn
-import torch.backends.cudnn as cudnn
-from torch.autograd import Variable
-from yolo import YOLO
-from nets.yolo4_tiny import YoloBody
-from PIL import Image,ImageFont, ImageDraw
-from utils.utils import non_max_suppression, bbox_iou, DecodeBox,letterbox_image,yolo_correct_boxes
+from PIL import Image
 from tqdm import tqdm
+
+from utils.utils import (letterbox_image, non_max_suppression,
+                         yolo_correct_boxes)
+from yolo import YOLO
 
 '''
 这里设置的门限值较低是因为计算map需要用到不同门限条件下的Recall和Precision值。
@@ -126,7 +123,6 @@ if not os.path.exists("./input/detection-results"):
 if not os.path.exists("./input/images-optional"):
     os.makedirs("./input/images-optional")
 
-
 for image_id in tqdm(image_ids):
     image_path = "./VOCdevkit/VOC2007/JPEGImages/"+image_id+".jpg"
     image = Image.open(image_path)
@@ -134,5 +130,4 @@ for image_id in tqdm(image_ids):
     # image.save("./input/images-optional/"+image_id+".jpg")
     yolo.detect_image(image_id,image)
     
-
 print("Conversion completed!")

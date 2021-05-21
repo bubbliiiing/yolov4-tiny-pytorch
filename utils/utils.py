@@ -1,15 +1,7 @@
-from __future__ import division
-
-import math
-import os
-import time
-
 import numpy as np
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-from PIL import Image, ImageDraw, ImageFont
-from torch.autograd import Variable
+from PIL import Image
 from torchvision.ops import nms
 
 
@@ -34,7 +26,7 @@ class DecodeBox(nn.Module):
 
         #-----------------------------------------------#
         #   输入为416x416时
-        #   stride_h = stride_w = 32、16、8
+        #   stride_h = stride_w = 32、16
         #-----------------------------------------------#
         stride_h = self.img_size[1] / input_height
         stride_w = self.img_size[0] / input_width
