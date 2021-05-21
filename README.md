@@ -19,16 +19,16 @@
 | 训练数据集 | 权值文件名称 | 测试数据集 | 输入图片大小 | mAP 0.5:0.95 | mAP 0.5 |
 | :-----: | :-----: | :------: | :------: | :------: | :-----: |
 | VOC07+12+COCO | [yolov4_tiny_weights_voc.pth](https://github.com/bubbliiiing/yolov4-tiny-pytorch/releases/download/v1.0/yolov4_tiny_weights_voc.pth) | VOC-Test07 | 416x416 | - | 77.8
-| VOC07+12+COCO | [yolov4_tiny_weights_voc_SE.h5](https://github.com/bubbliiiing/yolov4-tiny-keras/releases/download/v1.1/yolov4_tiny_weights_voc_SE.h5) | VOC-Test07 | 416x416 | - | 78.4
-| VOC07+12+COCO | [yolov4_tiny_weights_voc_CBAM.h5](https://github.com/bubbliiiing/yolov4-tiny-keras/releases/download/v1.1/yolov4_tiny_weights_voc_CBAM.h5) | VOC-Test07 | 416x416 | - | 78.6
-| VOC07+12+COCO | [yolov4_tiny_weights_voc_ECA.h5](https://github.com/bubbliiiing/yolov4-tiny-keras/releases/download/v1.1/yolov4_tiny_weights_voc_ECA.h5) | VOC-Test07 | 416x416 | - | 77.6
+| VOC07+12+COCO | [yolov4_tiny_weights_voc_SE.h5](https://github.com/bubbliiiing/yolov4-tiny-pytorch/releases/download/v1.0/yolov4_tiny_weights_voc_SE.h5) | VOC-Test07 | 416x416 | - | 78.4
+| VOC07+12+COCO | [yolov4_tiny_weights_voc_CBAM.h5](https://github.com/bubbliiiing/yolov4-tiny-pytorch/releases/download/v1.0/yolov4_tiny_weights_voc_CBAM.h5) | VOC-Test07 | 416x416 | - | 78.6
+| VOC07+12+COCO | [yolov4_tiny_weights_voc_ECA.h5](https://github.com/bubbliiiing/yolov4-tiny-pytorch/releases/download/v1.0/yolov4_tiny_weights_voc_ECA.h5) | VOC-Test07 | 416x416 | - | 77.6
 | COCO-Train2017 | [yolov4_tiny_weights_coco.pth](https://github.com/bubbliiiing/yolov4-tiny-pytorch/releases/download/v1.0/yolov4_tiny_weights_coco.pth) | COCO-Val2017 | 416x416 | 21.5 | 41.0
 
 ## 所需环境
 torch==1.2.0
 
 ## 注意事项
-代码中的yolov4_tiny_weights_coco.pth和yolov4_tiny_weights_voc.pth是基于416x416的图片训练的。
+代码中的各类权值均是基于416x416的图片训练的。    
 
 ## 小技巧的设置
 在train.py文件下：   
@@ -37,8 +37,8 @@ torch==1.2.0
 3、label_smoothing可用于控制是否Label Smoothing平滑。
 
 ## 文件下载
-训练所需的yolov4_tiny_weights_coco.pth和yolov4_tiny_weights_voc.pth可在百度网盘中下载。   
-链接: https://pan.baidu.com/s/1B37A_-Fcx8TsAK-M4hm90g 提取码: 5te5 
+训练所需的各类权值均可在百度网盘中下载。    
+链接: https://pan.baidu.com/s/13wcAfMC9YfwNxIIec5FT6g 提取码: b2t2    
 
 VOC数据集下载地址如下：  
 VOC2007+2012训练集    
