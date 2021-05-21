@@ -59,16 +59,27 @@ img/street.jpg
 2. 在yolo.py文件里面，在如下部分修改model_path和classes_path使其对应训练好的文件；**model_path对应logs文件夹下面的权值文件，classes_path是model_path对应分的类**。  
 ```python
 _defaults = {
-    "model_path": 'model_data/yolov4_tiny_weights_coco.pth',
-    "anchors_path": 'model_data/yolo_anchors.txt',
-    "classes_path": 'model_data/coco_classes.txt,
-    "score" : 0.5,
-    "iou" : 0.3,
-    # 显存比较小可以使用416x416
-    # 显存比较大可以使用608x608
-    "model_image_size" : (416, 416)
+    "model_path"        : 'model_data/yolov4_tiny_weights_coco.pth',
+    "anchors_path"      : 'model_data/yolo_anchors.txt',
+    "classes_path"      : 'model_data/coco_classes.txt',
+    #-------------------------------#
+    #   所使用的注意力机制的类型
+    #   phi = 0为不使用注意力机制
+    #   phi = 1为SE
+    #   phi = 2为CBAM
+    #   phi = 3为ECA
+    #-------------------------------#
+    "phi"               : 0,
+    "model_image_size"  : (416, 416, 3),
+    "confidence"        : 0.5,
+    "iou"               : 0.3, 
+    "cuda"              : True,
+    #---------------------------------------------------------------------#
+    #   该变量用于控制是否使用letterbox_image对输入图像进行不失真的resize，
+    #   在多次测试后，发现关闭letterbox_image直接resize的效果更好
+    #---------------------------------------------------------------------#
+    "letterbox_image"   : False,
 }
-
 ```
 3. 运行predict.py，输入  
 ```python
