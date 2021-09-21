@@ -30,6 +30,14 @@ class YOLO(object):
         #---------------------------------------------------------------------#
         "anchors_path"      : 'model_data/yolo_anchors.txt',
         "anchors_mask"      : [[3,4,5], [1,2,3]],
+        #-------------------------------#
+        #   所使用的注意力机制的类型
+        #   phi = 0为不使用注意力机制
+        #   phi = 1为SE
+        #   phi = 2为CBAM
+        #   phi = 3为ECA
+        #-------------------------------#
+        "phi"               : 0,  
         #---------------------------------------------------------------------#
         #   输入图片的大小，必须为32的倍数。
         #---------------------------------------------------------------------#
@@ -91,7 +99,7 @@ class YOLO(object):
         #---------------------------------------------------#
         #   建立yolo模型，载入yolo模型的权重
         #---------------------------------------------------#
-        self.net    = YoloBody(self.anchors_mask, self.num_classes)
+        self.net    = YoloBody(self.anchors_mask, self.num_classes, self.phi)
         device      = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.net.load_state_dict(torch.load(self.model_path, map_location=device))
         self.net    = self.net.eval()
