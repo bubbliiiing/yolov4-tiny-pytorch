@@ -42,6 +42,14 @@ if __name__ == "__main__":
     #   输入的shape大小，一定要是32的倍数
     #------------------------------------------------------#
     input_shape     = [416, 416]
+    #-------------------------------#
+    #   所使用的注意力机制的类型
+    #   phi = 0为不使用注意力机制
+    #   phi = 1为SE
+    #   phi = 2为CBAM
+    #   phi = 3为ECA
+    #-------------------------------#
+    phi             = 0
     #------------------------------------------------------#
     #   Yolov4的tricks应用
     #   mosaic 马赛克数据增强 True or False 
@@ -100,7 +108,7 @@ if __name__ == "__main__":
     #------------------------------------------------------#
     #   创建yolo模型
     #------------------------------------------------------#
-    model = YoloBody(anchors_mask, num_classes)
+    model = YoloBody(anchors_mask, num_classes, phi = phi)
     weights_init(model)
     #------------------------------------------------------#
     #   权值文件请看README，百度网盘下载
@@ -154,9 +162,9 @@ if __name__ == "__main__":
 
         train_dataset   = YoloDataset(train_lines, input_shape, num_classes, mosaic=mosaic, train = True)
         val_dataset     = YoloDataset(val_lines, input_shape, num_classes, mosaic=False, train = False)
-        gen             = DataLoader(train_dataset, shuffle = True, batch_size = Freeze_batch_size, num_workers = num_workers, pin_memory=True,
+        gen             = DataLoader(train_dataset, shuffle = True, batch_size = batch_size, num_workers = num_workers, pin_memory=True,
                                     drop_last=True, collate_fn=yolo_dataset_collate)
-        gen_val         = DataLoader(val_dataset  , shuffle = True, batch_size = Freeze_batch_size, num_workers = num_workers, pin_memory=True, 
+        gen_val         = DataLoader(val_dataset  , shuffle = True, batch_size = batch_size, num_workers = num_workers, pin_memory=True, 
                                     drop_last=True, collate_fn=yolo_dataset_collate)
                         
         epoch_step      = num_train // batch_size
@@ -191,9 +199,9 @@ if __name__ == "__main__":
 
         train_dataset   = YoloDataset(train_lines, input_shape, num_classes, mosaic=mosaic, train = True)
         val_dataset     = YoloDataset(val_lines, input_shape, num_classes, mosaic=False, train = False)
-        gen             = DataLoader(train_dataset, shuffle = True, batch_size = Freeze_batch_size, num_workers = num_workers, pin_memory=True,
+        gen             = DataLoader(train_dataset, shuffle = True, batch_size = batch_size, num_workers = num_workers, pin_memory=True,
                                     drop_last=True, collate_fn=yolo_dataset_collate)
-        gen_val         = DataLoader(val_dataset  , shuffle = True, batch_size = Freeze_batch_size, num_workers = num_workers, pin_memory=True, 
+        gen_val         = DataLoader(val_dataset  , shuffle = True, batch_size = batch_size, num_workers = num_workers, pin_memory=True, 
                                     drop_last=True, collate_fn=yolo_dataset_collate)
                         
         epoch_step      = num_train // batch_size
