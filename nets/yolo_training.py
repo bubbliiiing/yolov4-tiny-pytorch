@@ -108,7 +108,6 @@ class YOLOLoss(nn.Module):
         #   l 代表使用的是第几个有效特征层
         #   input的shape为  bs, 3*(5+num_classes), 13, 13
         #                   bs, 3*(5+num_classes), 26, 26
-        #                   bs, 3*(5+num_classes), 52, 52
         #   targets 真实框的标签情况 [batch_size, num_gt, 5]
         #----------------------------------------------------#
         #--------------------------------#
@@ -124,7 +123,7 @@ class YOLOLoss(nn.Module):
         #   如果特征层为13x13的话，一个特征点就对应原来的图片上的32个像素点
         #   如果特征层为26x26的话，一个特征点就对应原来的图片上的16个像素点
         #   如果特征层为52x52的话，一个特征点就对应原来的图片上的8个像素点
-        #   stride_h = stride_w = 32、16、8
+        #   stride_h = stride_w = 32、16
         #-----------------------------------------------------------------------#
         stride_h = self.input_shape[0] / in_h
         stride_w = self.input_shape[1] / in_w
@@ -138,7 +137,6 @@ class YOLOLoss(nn.Module):
 
         #   batch_size, 3, 13, 13, 5 + num_classes
         #   batch_size, 3, 26, 26, 5 + num_classes
-        #   batch_size, 3, 52, 52, 5 + num_classes
         #-----------------------------------------------#
         prediction = input.view(bs, len(self.anchors_mask[l]), self.bbox_attrs, in_h, in_w).permute(0, 1, 3, 4, 2).contiguous()
         
