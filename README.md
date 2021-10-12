@@ -1,11 +1,13 @@
 ## YOLOV4-Tiny：You Only Look Once-Tiny目标检测模型在Pytorch当中的实现
 ---
-
-**2021年2月7日更新：**   
-**仔细对照了darknet库的网络结构，发现P5_Upsample和feat1的顺序搞反了，已经调整，重新训练了权值，加入letterbox_image的选项，关闭letterbox_image后网络的map得到提升。**
+**2021年10月12日更新：**   
+**进行了大幅度的更新，对代码的模块进行修改，加了大量注释。**   
 
 **2021年5月21日更新：**   
 **增加了各类注意力机制，并添加在FPN部分，检测效果有一定的提升。**
+
+**2021年2月7日更新：**   
+**仔细对照了darknet库的网络结构，发现P5_Upsample和feat1的顺序搞反了，已经调整，重新训练了权值，加入letterbox_image的选项，关闭letterbox_image后网络的map得到提升。**
 
 ## 目录
 1. [性能情况 Performance](#性能情况)
