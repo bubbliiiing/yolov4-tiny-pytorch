@@ -139,8 +139,5 @@ class CSPDarkNet(nn.Module):
 def darknet53_tiny(pretrained, **kwargs):
     model = CSPDarkNet()
     if pretrained:
-        if isinstance(pretrained, str):
-            model.load_state_dict(torch.load(pretrained))
-        else:
-            raise Exception("darknet request a pretrained path. got [{}]".format(pretrained))
+        model.load_state_dict(torch.load("model_data/CSPdarknet53_tiny_backbone_weights.pth"))
     return model
