@@ -43,8 +43,8 @@ torch==1.2.0
 
 ## 文件下载
 训练所需的各类权值均可在百度网盘中下载。    
-链接: https://pan.baidu.com/s/1TH8B9MihF8EjfHCIsX8dlw     
-提取码: cj3m     
+链接: https://pan.baidu.com/s/1ABR6lOd0_cs5_2DORrMSRw      
+提取码: iauv    
 
 VOC数据集下载地址如下，里面已经包括了训练集、测试集、验证集（与测试集一样），无需再次划分：  
 链接: https://pan.baidu.com/s/19Mw2u_df_nBzsC2lg20fQA    
