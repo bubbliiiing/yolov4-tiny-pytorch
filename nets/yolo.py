@@ -53,10 +53,10 @@ def yolo_head(filters_list, in_filters):
 #   yolo_body
 #---------------------------------------------------#
 class YoloBody(nn.Module):
-    def __init__(self, anchors_mask, num_classes, phi=0):
+    def __init__(self, anchors_mask, num_classes, phi=0, pretrained=False):
         super(YoloBody, self).__init__()
         self.phi            = phi
-        self.backbone       = darknet53_tiny(None)
+        self.backbone       = darknet53_tiny(pretrained)
 
         self.conv_for_P5    = BasicConv(512,256,1)
         self.yolo_headP5    = yolo_head([512, len(anchors_mask[0]) * (5 + num_classes)],256)
