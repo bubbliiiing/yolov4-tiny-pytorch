@@ -147,7 +147,7 @@ if __name__ == "__main__":
     #------------------------------------------------------#
     #   创建yolo模型
     #------------------------------------------------------#
-    model = YoloBody(anchors_mask, num_classes, pretrained = pretrained)
+    model = YoloBody(anchors_mask, num_classes, pretrained = pretrained, phi = phi)
     if not pretrained:
         weights_init(model)
     
