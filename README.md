@@ -14,7 +14,7 @@
 
 ## Top News
 **`2022-03`**:**进行了大幅度的更新，支持step、cos学习率下降法、支持adam、sgd优化器选择、支持学习率根据batch_size自适应调整、新增图片裁剪。**  
-BiliBili视频中的原仓库地址为：https://github.com/bubbliiiing/mobilenet-yolov4-pytorch/tree/bilibili
+BiliBili视频中的原仓库地址为：https://github.com/bubbliiiing/yolov4-tiny-pytorch/tree/bilibili
 
 **`2021-10`**:**创建仓库，支持不同尺寸模型训练、支持大量可调整参数，支持fps、视频预测、批量预测等功能。**   
 
