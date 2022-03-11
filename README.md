@@ -1,24 +1,33 @@
 ## YOLOV4-Tiny：You Only Look Once-Tiny目标检测模型在Pytorch当中的实现
 ---
-**2021年10月12日更新：**   
-**进行了大幅度的更新，对代码的模块进行修改，加了大量注释。**   
-
-**2021年5月21日更新：**   
-**增加了各类注意力机制，并添加在FPN部分，检测效果有一定的提升。**
-
-**2021年2月7日更新：**   
-**仔细对照了darknet库的网络结构，发现P5_Upsample和feat1的顺序搞反了，已经调整，重新训练了权值，加入letterbox_image的选项，关闭letterbox_image后网络的map得到提升。**
 
 ## 目录
-1. [性能情况 Performance](#性能情况)
-2. [所需环境 Environment](#所需环境)
-3. [注意事项 Attention](#注意事项)
-4. [小技巧的设置 TricksSet](#小技巧的设置)
+1. [仓库更新 Top News](#仓库更新)
+2. [相关仓库 Related code](#相关仓库)
+3. [性能情况 Performance](#性能情况)
+4. [所需环境 Environment](#所需环境)
 5. [文件下载 Download](#文件下载)
-6. [预测步骤 How2predict](#预测步骤)
-7. [训练步骤 How2train](#训练步骤)
+6. [训练步骤 How2train](#训练步骤)
+7. [预测步骤 How2predict](#预测步骤)
 8. [评估步骤 How2eval](#评估步骤)
 9. [参考资料 Reference](#Reference)
+
+## Top News
+**`2022-03`**:**进行了大幅度的更新，支持step、cos学习率下降法、支持adam、sgd优化器选择、支持学习率根据batch_size自适应调整、新增图片裁剪。**  
+BiliBili视频中的原仓库地址为：https://github.com/bubbliiiing/mobilenet-yolov4-pytorch/tree/bilibili
+
+**`2021-10`**:**创建仓库，支持不同尺寸模型训练、支持大量可调整参数，支持fps、视频预测、批量预测等功能。**   
+
+## 相关仓库
+| 模型 | 路径 |
+| :----- | :----- |
+YoloV3 | https://github.com/bubbliiiing/yolo3-pytorch  
+Efficientnet-Yolo3 | https://github.com/bubbliiiing/efficientnet-yolo3-pytorch  
+YoloV4 | https://github.com/bubbliiiing/yolov4-pytorch
+YoloV4-tiny | https://github.com/bubbliiiing/yolov4-tiny-pytorch
+Mobilenet-Yolov4 | https://github.com/bubbliiiing/mobilenet-yolov4-pytorch
+YoloV5 | https://github.com/bubbliiiing/yolov5-pytorch
+YoloX | https://github.com/bubbliiiing/yolox-pytorch
 
 ## 性能情况
 | 训练数据集 | 权值文件名称 | 测试数据集 | 输入图片大小 | mAP 0.5:0.95 | mAP 0.5 |
@@ -31,15 +40,6 @@
 
 ## 所需环境
 torch==1.2.0
-
-## 注意事项
-代码中的各类权值均是基于416x416的图片训练的。    
-
-## 小技巧的设置
-在train.py文件下：   
-1、mosaic参数可用于控制是否实现Mosaic数据增强。   
-2、Cosine_scheduler可用于控制是否使用学习率余弦退火衰减。   
-3、label_smoothing可用于控制是否Label Smoothing平滑。
 
 ## 文件下载
 训练所需的各类权值均可在百度网盘中下载。    
