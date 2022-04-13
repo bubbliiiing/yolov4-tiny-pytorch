@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 
 from nets.CSPdarknet53_tiny import darknet53_tiny
-from nets.attention import cbam_block, eca_block, se_block
+from nets.attention import cbam_block, eca_block, se_block, CA_Block
 
-attention_block = [se_block, cbam_block, eca_block]
+attention_block = [se_block, cbam_block, eca_block, CA_Block]
 
 #-------------------------------------------------#
 #   卷积块 -> 卷积 + 标准化 + 激活函数
@@ -64,7 +64,7 @@ class YoloBody(nn.Module):
         self.upsample       = Upsample(256,128)
         self.yolo_headP4    = yolo_head([256, len(anchors_mask[1]) * (5 + num_classes)],384)
 
-        if 1 <= self.phi and self.phi <= 3:
+        if 1 <= self.phi and self.phi <= 4:
             self.feat1_att      = attention_block[self.phi - 1](256)
             self.feat2_att      = attention_block[self.phi - 1](512)
             self.upsample_att   = attention_block[self.phi - 1](128)
@@ -76,7 +76,7 @@ class YoloBody(nn.Module):
         #   feat2的shape为13,13,512
         #---------------------------------------------------#
         feat1, feat2 = self.backbone(x)
-        if 1 <= self.phi and self.phi <= 3:
+        if 1 <= self.phi and self.phi <= 4:
             feat1 = self.feat1_att(feat1)
             feat2 = self.feat2_att(feat2)
 
@@ -88,7 +88,7 @@ class YoloBody(nn.Module):
         # 13,13,256 -> 13,13,128 -> 26,26,128
         P5_Upsample = self.upsample(P5)
         # 26,26,256 + 26,26,128 -> 26,26,384
-        if 1 <= self.phi and self.phi <= 3:
+        if 1 <= self.phi and self.phi <= 4:
             P5_Upsample = self.upsample_att(P5_Upsample)
         P4 = torch.cat([P5_Upsample,feat1],axis=1)
 
