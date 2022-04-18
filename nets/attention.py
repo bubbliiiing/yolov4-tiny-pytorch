@@ -102,7 +102,7 @@ class CA_Block(nn.Module):
         x_h = torch.mean(x, dim = 3, keepdim = True).permute(0, 1, 3, 2)
         x_w = torch.mean(x, dim = 2, keepdim = True)
  
-        x_cat_conv_relu = self.relu(self.conv_1x1(torch.cat((x_h, x_w), 3)))
+        x_cat_conv_relu = self.relu(self.bn(self.conv_1x1(torch.cat((x_h, x_w), 3))))
  
         x_cat_conv_split_h, x_cat_conv_split_w = x_cat_conv_relu.split([h, w], 3)
  
