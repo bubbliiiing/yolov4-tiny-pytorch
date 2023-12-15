@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
 
-from nets.CSPdarknet53_tiny import darknet53_tiny
-from nets.attention import cbam_block, eca_block, se_block, CA_Block
+from yolov4_tiny_pytorch.nets.CSPdarknet53_tiny import darknet53_tiny
+from yolov4_tiny_pytorch.nets.attention import cbam_block, eca_block, se_block, CA_Block
 
 attention_block = [se_block, cbam_block, eca_block, CA_Block]
 

@@ -8,7 +8,7 @@ import cv2
 import numpy as np
 from PIL import Image
 
-from yolo import YOLO, YOLO_ONNX
+from .yolo import YOLO, YOLO_ONNX
 
 if __name__ == "__main__":
     #----------------------------------------------------------------------------------------------------------#

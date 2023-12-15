@@ -7,11 +7,14 @@ import torch
 import torch.nn as nn
 import cv2
 from PIL import ImageDraw, ImageFont, Image
+import sys
+import os
 
-from nets.yolo import YoloBody
-from utils.utils import (cvtColor, get_anchors, get_classes, preprocess_input,
+from yolov4_tiny_pytorch.nets.yolo import YoloBody
+from yolov4_tiny_pytorch.utils.utils import (cvtColor, get_anchors, get_classes, preprocess_input,
                          resize_image, show_config)
-from utils.utils_bbox import DecodeBox, DecodeBoxNP
+from yolov4_tiny_pytorch.utils.utils_bbox import DecodeBox, DecodeBoxNP
+
 
 '''
 训练自己的数据集必看注释！
@@ -119,7 +122,7 @@ class YOLO(object):
     #---------------------------------------------------#
     #   检测图片
     #---------------------------------------------------#
-    def detect_image(self, image, crop = False, count = False):
+    def detect_image(self, image, crop = False, count = False, bbox_only = False):
         image_shape = np.array(np.shape(image)[0:2])
         #---------------------------------------------------------#
         #   在这里将图像转换成RGB图像，防止灰度图在预测时报错。
@@ -153,7 +156,9 @@ class YOLO(object):
                                                     
             if results[0] is None: 
                 return image
-
+            if bbox_only:
+                return outputs
+            
             top_label   = np.array(results[0][:, 6], dtype = 'int32')
             top_conf    = results[0][:, 4] * results[0][:, 5]
             top_boxes   = results[0][:, :4]
@@ -208,18 +213,18 @@ class YOLO(object):
 
             label = '{} {:.2f}'.format(predicted_class, score)
             draw = ImageDraw.Draw(image)
-            #label_size = draw.textsize(label, font)
+            label_size = draw.textsize(label, font)
             label = label.encode('utf-8')
             print(label, top, left, bottom, right)
             
-            #if top - label_size[1] >= 0:
-            #    text_origin = np.array([left, top - label_size[1]])
-            #else:
-            text_origin = np.array([left, top + 1])
+            if top - label_size[1] >= 0:
+                text_origin = np.array([left, top - label_size[1]])
+            else:
+                text_origin = np.array([left, top + 1])
 
             for i in range(thickness):
                 draw.rectangle([left + i, top + i, right - i, bottom - i], outline=self.colors[c])
-            #draw.rectangle([tuple(text_origin), tuple(text_origin + label_size)], fill=self.colors[c])
+            draw.rectangle([tuple(text_origin), tuple(text_origin + label_size)], fill=self.colors[c])
             draw.text(text_origin, str(label,'UTF-8'), fill=(0, 0, 0), font=font)
             del draw
 

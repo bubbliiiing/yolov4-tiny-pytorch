@@ -17,6 +17,7 @@ class DecodeBox():
         self.anchors_mask   = anchors_mask
 
     def decode_box(self, inputs):
+        # convert network activation to usual bbox format, before non_max_suppression
         outputs = []
         for i, input in enumerate(inputs):
             #-----------------------------------------------#
